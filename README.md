@@ -16,7 +16,14 @@ This repo contains example code for loading and using EchoCLIP and its long-cont
 conda create -n echo-clip python=3.8
 conda activate echo-clip
 #python -m pip install -r requirements.txt
-pip install -r requirements.txt
+#pip install -r requirements.txt
+pip install torch torchvision 
+pip install open_clip_torch 
+pip install huggingface_hub 
+pip install transformers
+pip install opencv-python-headless 
+pip install numpy Pillow scipy timm
+pip install matplotlib 
 ```
 You should now be able to run `embedding_example.py` and `zero_shot_example.py`.
 
