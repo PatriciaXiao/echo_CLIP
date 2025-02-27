@@ -1,7 +1,7 @@
 pytorch
 torchvision
 open_clip_torch
-huggingface_hub==0.16.4
+huggingface_hub
 tokenizers
 opencv-python-headless
 numpy
