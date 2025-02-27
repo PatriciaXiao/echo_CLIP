@@ -13,7 +13,7 @@ This repo contains example code for loading and using EchoCLIP and its long-cont
 #git clone https://github.com/echonet/echo_CLIP
 #cd echo_CLIP
 #conda env create -n echo-clip
-conda create -n echo-clip
+conda create -n echo-clip python=3.8
 conda activate echo-clip
 #python -m pip install -r requirements.txt
 pip install -r requirements.txt
