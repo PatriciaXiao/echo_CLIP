@@ -9,22 +9,11 @@ from utils import (
     read_avi,
 )
 from finetune_encoder.eval_metrics import get_classification_metrics
-import pandas as pd
-import numpy as np
 
 # screen -S echo_clip_eval
 # conda activate echo-clip
 # CTRL+A and D
 # screen -r echo_clip_eval
-
-data_path = "/mnt/hanoverdev/data/patxiao/ECHO_numpy/20250126/"
-dataset_csv = "/home/patxiao/ECHO/label_dataset_v1/HF_mini.csv"
-
-# zero shot, no training
-dataset = pd.read_csv(dataset_csv)
-dataset = dataset[dataset["split"] != "train"]
-
-exit(0)
 
 
 # You'll need to log in to the HuggingFace hub CLI to download the models
@@ -38,22 +27,20 @@ echo_clip, _, preprocess_val = create_model_and_transforms(
     "hf-hub:mkaichristensen/echo-clip", precision="bf16", device="cuda"
 )
 
-
-
 # We'll use random noise in the shape of a 10-frame video in this example, but you can use any image
 # We'll load a sample echo video and preprocess its frames.
 test_video = read_avi(
     "example_video.avi",
     (224, 224),
 )
-print(test_video) # original scale
+print(test_video)
 print("test_video shape: ", test_video.shape) # (113, 224, 224, 3)
 test_video = torch.stack(
     [preprocess_val(T.ToPILImage()(frame)) for frame in test_video], dim=0
 )
 test_video = test_video[0:min(40, len(test_video)):2]
 print("processed test_video shape: ", test_video.shape) # [20, 3, 224, 224]
-print(test_video) # normalized
+print(test_video)
 test_video = test_video.cuda()
 test_video = test_video.to(torch.bfloat16)
 
