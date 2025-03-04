@@ -114,7 +114,7 @@ for idx,(path,split,label) in enumerate(zip(path_list, split_list, label_list)):
         out_data["predict"].append(predict)
 
         df = pd.DataFrame(data=out_data)
-        df.out_csv(out_csv, index=None)
+        df.to_csv(out_csv, index=None)
         #exit(0)
         # debug
         if idx > 10:
