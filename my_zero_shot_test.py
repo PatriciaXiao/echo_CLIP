@@ -20,7 +20,7 @@ import numpy as np
 data_path = "/mnt/hanoverdev/data/patxiao/ECHO_numpy/20250126/"
 dataset_csv = "/home/patxiao/ECHO/label_dataset_v1/HF_mini.csv"
 
-out_dir = "/mnt/hanoverdev/data/patxiao/ECHO_results/HF_v1_mini/echo_clip_zeroshot.csv"
+out_csv = "/mnt/hanoverdev/data/patxiao/ECHO_results/HF_v1_mini/echo_clip_zeroshot.csv"
 
 # zero shot, no training
 dataset = pd.read_csv(dataset_csv)
@@ -28,6 +28,18 @@ dataset = pd.read_csv(dataset_csv)
 dataset = dataset[dataset["split"] != "train"]
 #print(len(dataset))
 #print(dataset)
+
+path_list = [os.path.join(data_path, p) for p in list(dataset["path"])]
+split_list = list(dataset["split"])
+label_list = list(dataset["label"])
+
+out_data = {"path": list(), "label": list(), "split": list()}
+if os.path.exists(out_csv):
+    saved_df = pf.read_csv(out_csv)
+    for field in out_data.keys():
+        out_data[field] = list(saved_df[field])
+
+
 
 
 # You'll need to log in to the HuggingFace hub CLI to download the models
@@ -41,24 +53,31 @@ echo_clip, _, preprocess_val = create_model_and_transforms(
     "hf-hub:mkaichristensen/echo-clip", precision="bf16", device="cuda"
 )
 
+num_cases = len(dataset)
+for idx,(path,split,label) in enumerate(zip(path_list, split_list, label_list)):
+    if os.path.exists(path):
+        test_video = np.load(path)
+        print(text_video.shape)
+        exit(0)
 
+exit(0)
 
 
 # We'll use random noise in the shape of a 10-frame video in this example, but you can use any image
 # We'll load a sample echo video and preprocess its frames.
 test_video = read_avi(
     "example_video.avi",
-    (250, 250), # this also works?
+    (250, 250), # this also works? yes
     #(224, 224),
 )
-print(test_video) # original scale
+#print(test_video) # original scale
 print("test_video shape: ", test_video.shape) # (113, 224, 224, 3)
 test_video = torch.stack(
     [preprocess_val(T.ToPILImage()(frame)) for frame in test_video], dim=0
 )
 test_video = test_video[0:min(40, len(test_video)):2]
 print("processed test_video shape: ", test_video.shape) # [20, 3, 224, 224]
-print(test_video) # normalized
+#print(test_video) # normalized
 test_video = test_video.cuda()
 test_video = test_video.to(torch.bfloat16)
 
