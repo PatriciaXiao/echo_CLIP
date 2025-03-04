@@ -24,13 +24,9 @@ python -m pip install huggingface_hub
 python -m pip install transformers
 python -m pip install opencv-python-headless 
 python -m pip install numpy Pillow scipy timm
-python -m pip install matplotlib 
+python -m pip install matplotlib monai scikit-learn
 
-# to run fair evaluation as baseline
-#pip install monai
-#pip install scikit-learn
-conda install -c conda-forge -c project-monai scikit-learn monai -y
-conda install pytorch torchvision torchaudio -c pytorch
+# to run fair evaluation as baseline 
 ```
 You should now be able to run `embedding_example.py` and `zero_shot_example.py`.
 
