@@ -121,8 +121,8 @@ for idx,(path,split,label) in enumerate(zip(path_list, split_list, label_list)):
         print("({}/{}): {} refused access".format(idx+1, num_cases, path))
 
     # debug
-    if idx > 10:
-        break
+    #if idx > 10:
+    #    break
 
 
 df = pd.DataFrame(data=out_data)
