@@ -22,7 +22,10 @@ dataset_csv = "/home/patxiao/ECHO/label_dataset_v1/HF_mini.csv"
 
 # zero shot, no training
 dataset = pd.read_csv(dataset_csv)
+print(len(dataset))
 dataset = dataset[dataset["split"] != "train"]
+print(len(dataset))
+print(dataset)
 
 exit(0)
 
