@@ -62,10 +62,11 @@ heart_failure_prompts = [
 ]
 #pacemaker_prompts = zero_shot_prompts["pacemaker"]
 #print(pacemaker_prompts) # 2 lines
+print("heart failure prompts: ", heart_failure_prompts)
 
 # We'll use the CLIP BPE tokenizer to tokenize the prompts
 heart_failure_prompts = tokenize(heart_failure_prompts).cuda()
-print("heart failure prompts: ", heart_failure_prompts)
+#print("heart failure prompts: ", heart_failure_prompts)
 
 # Now we can encode the prompts into embeddings
 heart_failure_prompts_embeddings = F.normalize(
