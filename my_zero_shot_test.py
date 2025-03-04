@@ -36,7 +36,7 @@ label_list = list(dataset["label"])
 
 out_data = {"path": list(), "label": list(), "split": list(), "predict": list()}
 if os.path.exists(out_csv):
-    saved_df = pf.read_csv(out_csv)
+    saved_df = pd.read_csv(out_csv)
     for field in out_data.keys():
         out_data[field] = list(saved_df[field])
 
