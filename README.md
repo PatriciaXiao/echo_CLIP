@@ -24,6 +24,9 @@ pip install transformers
 pip install opencv-python-headless 
 pip install numpy Pillow scipy timm
 pip install matplotlib 
+
+# to run fair evaluation as baseline
+pip install monai
 ```
 You should now be able to run `embedding_example.py` and `zero_shot_example.py`.
 
