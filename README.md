@@ -25,6 +25,7 @@ python -m pip install transformers
 python -m pip install opencv-python-headless 
 python -m pip install numpy Pillow scipy timm
 python -m pip install matplotlib monai scikit-learn
+python -m pip install pandas
 
 # to run fair evaluation as baseline 
 ```
