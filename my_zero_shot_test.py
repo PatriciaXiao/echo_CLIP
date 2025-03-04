@@ -40,7 +40,8 @@ if os.path.exists(out_csv):
     for field in out_data.keys():
         out_data[field] = list(saved_df[field])
 
-
+device_name
+device = torch.device("cuda:2")
 
 
 # You'll need to log in to the HuggingFace hub CLI to download the models
@@ -51,7 +52,7 @@ if os.path.exists(out_csv):
 # or pacemaker detection. It has a short context window because it
 # uses the CLIP BPE tokenizer, so it can't process an entire report at once.
 echo_clip, _, preprocess_val = create_model_and_transforms(
-    "hf-hub:mkaichristensen/echo-clip", precision="bf16", device="cuda"
+    "hf-hub:mkaichristensen/echo-clip", precision="bf16", device=device_name
 )
 
 heart_failure_prompts = [
@@ -65,7 +66,8 @@ heart_failure_prompts = [
 print("heart failure prompts: ", heart_failure_prompts)
 
 # We'll use the CLIP BPE tokenizer to tokenize the prompts
-heart_failure_prompts = tokenize(heart_failure_prompts).cuda()
+#heart_failure_prompts = tokenize(heart_failure_prompts).cuda()
+heart_failure_prompts = tokenize(heart_failure_prompts).to(device)
 #print("heart failure prompts: ", heart_failure_prompts)
 
 # Now we can encode the prompts into embeddings
@@ -95,7 +97,8 @@ for idx,(path,split,label) in enumerate(zip(path_list, split_list, label_list)):
             [preprocess_val(T.ToPILImage()(frame)) for frame in test_video], dim=0
         )
         #print(test_video.shape) # [60, 3, 224, 224]
-        test_video = test_video.cuda()
+        #test_video = test_video.cuda()
+        test_video = test_video.to(device)
         test_video = test_video.to(torch.bfloat16)
 
         # turn it into echo clip image encoding
