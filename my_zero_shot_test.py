@@ -34,7 +34,7 @@ path_list = [os.path.join(data_path, p) for p in list(dataset["path"])]
 split_list = list(dataset["split"])
 label_list = list(dataset["label"])
 
-out_data = {"path": list(), "label": list(), "split": list()}
+out_data = {"path": list(), "label": list(), "split": list(), "predict": list()}
 if os.path.exists(out_csv):
     saved_df = pf.read_csv(out_csv)
     for field in out_data.keys():
@@ -75,8 +75,11 @@ heart_failure_prompts_embeddings = F.normalize(
 
 num_cases = len(dataset)
 for idx,(path,split,label) in enumerate(zip(path_list, split_list, label_list)):
+    if path in out_data["path"]:
+        print("({}/{}): already processed".format(idx+1, num_cases, path))
     if os.path.exists(path):
         test_video = np.load(path)
+        print("({}/{}): processing {}".format(idx+1, num_cases, path))
         #print(test_video.shape) # (3, 60, 256, 256)
         """
         data = list()
@@ -103,8 +106,36 @@ for idx,(path,split,label) in enumerate(zip(path_list, split_list, label_list)):
             test_video_embedding, heart_failure_prompts_embeddings
         )
 
-        print(heart_failure_predictions)
-        exit(0)
+        predict = heart_failure_predictions.item()
+
+        out_data["path"].append(path)
+        out_data["label"].append(label)
+        out_data["split"].append(split)
+        out_data["predict"].append(predict)
+
+        df = pd.DataFrame(data=out_data)
+        df.out_csv(out_csv, index=None)
+        #exit(0)
+        # debug
+        if idx > 10:
+            break
+    else:
+        print("({}/{}): {} refused access".format(idx+1, num_cases, path))
+
+
+df = pd.DataFrame(data=out_data)
+df = df[df["split"] == "test"]
+
+pred_val = np.array(df["predict"])
+labels = np.array(df["label"])
+output = np.column_stack((1 - pred_val, pred_val))
+target = labels.reshape(-1, 1)
+
+label_dict = {0:0, 1:1}
+mode = "binary"
+
+eval_stats = get_classification_metrics(output, target, label_dict, mode=mode)
+print(eval_stats)
 
 
 exit(0)
