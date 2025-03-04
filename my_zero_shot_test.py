@@ -89,7 +89,8 @@ f1_calibrated_threshold = 0.298
 print("Raw score: ", heart_failure_predictions.item())
 print(f"Heart Failure detected: {heart_failure_predictions.item() > f1_calibrated_threshold}")
 
-output = torch.Tensor([[heart_failure_predictions.item()], [heart_failure_predictions.item()]])
+pred = heart_failure_predictions.item()
+output = torch.Tensor([[1-pred, pred], [1-pred, pred]])
 target = torch.Tensor([[0.0], [1.0]])
 label_dict = {0:0, 1:1}
 mode = "binary"
