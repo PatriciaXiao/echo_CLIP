@@ -95,5 +95,6 @@ label_dict = {0:0, 1:1}
 mode = "binary"
 
 eval_stats = get_classification_metrics(output, target, label_dict, mode=mode)
+print(eval_stats)
 
 
