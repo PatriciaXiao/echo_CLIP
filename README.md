@@ -15,6 +15,7 @@ This repo contains example code for loading and using EchoCLIP and its long-cont
 #conda env create -n echo-clip
 conda create -n echo-clip python=3.8
 conda activate echo-clip
+conda install pip
 #python -m pip install -r requirements.txt
 #pip install -r requirements.txt
 pip install torch torchvision 
@@ -27,7 +28,9 @@ pip install matplotlib
 
 # to run fair evaluation as baseline
 #pip install monai
-pip install scikit-learn
+#pip install scikit-learn
+conda install -c conda-forge -c project-monai scikit-learn monai -y
+conda install pytorch torchvision torchaudio -c pytorch
 ```
 You should now be able to run `embedding_example.py` and `zero_shot_example.py`.
 
