@@ -77,6 +77,7 @@ heart_failure_predictions = compute_binary_metric(
 # If we use a pacemaker detection threshold calibrated using its F1 score on
 # our test set, we can get a proper true/false prediction prediction.
 f1_calibrated_threshold = 0.298
-print(f"Pacemaker detected: {heart_failure_predictions.item() > f1_calibrated_threshold}")
+print("Raw score: ", heart_failure_predictions.item())
+print(f"Heart Failure detected: {heart_failure_predictions.item() > f1_calibrated_threshold}")
 
 
