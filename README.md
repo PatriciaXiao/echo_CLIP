@@ -27,6 +27,7 @@ pip install matplotlib
 
 # to run fair evaluation as baseline
 #pip install monai
+pip install scikit-learn
 ```
 You should now be able to run `embedding_example.py` and `zero_shot_example.py`.
 
