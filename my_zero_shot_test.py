@@ -20,14 +20,14 @@ import numpy as np
 data_path = "/mnt/hanoverdev/data/patxiao/ECHO_numpy/20250126/"
 dataset_csv = "/home/patxiao/ECHO/label_dataset_v1/HF_mini.csv"
 
+out_dir = "/mnt/hanoverdev/data/patxiao/ECHO_results/HF_v1_mini/echo_clip_zeroshot.csv"
+
 # zero shot, no training
 dataset = pd.read_csv(dataset_csv)
-print(len(dataset))
+#print(len(dataset))
 dataset = dataset[dataset["split"] != "train"]
-print(len(dataset))
-print(dataset)
-
-exit(0)
+#print(len(dataset))
+#print(dataset)
 
 
 # You'll need to log in to the HuggingFace hub CLI to download the models
@@ -43,11 +43,13 @@ echo_clip, _, preprocess_val = create_model_and_transforms(
 
 
 
+
 # We'll use random noise in the shape of a 10-frame video in this example, but you can use any image
 # We'll load a sample echo video and preprocess its frames.
 test_video = read_avi(
     "example_video.avi",
-    (224, 224),
+    (250, 250), # this also works?
+    #(224, 224),
 )
 print(test_video) # original scale
 print("test_video shape: ", test_video.shape) # (113, 224, 224, 3)
