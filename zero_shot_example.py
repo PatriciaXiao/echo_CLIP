@@ -26,6 +26,7 @@ test_video = read_avi(
     "example_video.avi",
     (224, 224),
 )
+print("test_video shape: ", test_video.shape)
 test_video = torch.stack(
     [preprocess_val(T.ToPILImage()(frame)) for frame in test_video], dim=0
 )
