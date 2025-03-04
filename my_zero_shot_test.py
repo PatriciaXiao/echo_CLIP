@@ -8,6 +8,7 @@ from utils import (
     compute_regression_metric,
     read_avi,
 )
+from finetune_encoder.eval_metrics import get_classification_metrics
 
 # You'll need to log in to the HuggingFace hub CLI to download the models
 # You can do this with the terminal command "huggingface-cli login"
