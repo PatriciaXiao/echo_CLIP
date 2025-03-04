@@ -48,7 +48,7 @@ print("processed test_video_embedding shape: ", test_video_embedding.shape) # to
 # prompts that describe the task we want to perform. For example,
 # to zero-shot detect pacemakers, we'll use the following prompts
 pacemaker_prompts = zero_shot_prompts["pacemaker"]
-print(pacemaker_prompts)
+print(pacemaker_prompts) # 2 lines
 
 # We'll use the CLIP BPE tokenizer to tokenize the prompts
 pacemaker_prompts = tokenize(pacemaker_prompts).cuda()
@@ -58,7 +58,7 @@ print(pacemaker_prompts)
 pacemaker_prompt_embeddings = F.normalize(
     echo_clip.encode_text(pacemaker_prompts), dim=-1
 )
-print(pacemaker_prompt_embeddings.shape)
+print(pacemaker_prompt_embeddings.shape) # torch.Size([2, 512])
 
 # Now we can compute the similarity between the video and the prompts
 # to get a prediction for whether the video contains a pacemaker. It's
