@@ -10,6 +10,12 @@ from utils import (
 )
 from finetune_encoder.eval_metrics import get_classification_metrics
 
+# screen -S echo_clip_eval
+# conda activate echo-clip
+# CTRL+A and D
+# screen -r echo_clip_eval
+
+
 # You'll need to log in to the HuggingFace hub CLI to download the models
 # You can do this with the terminal command "huggingface-cli login"
 # You'll be asked to paste your HuggingFace API token, which you can find at https://huggingface.co/settings/token
