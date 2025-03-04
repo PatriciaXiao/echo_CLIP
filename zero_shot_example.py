@@ -31,13 +31,14 @@ test_video = torch.stack(
     [preprocess_val(T.ToPILImage()(frame)) for frame in test_video], dim=0
 )
 test_video = test_video[0:min(40, len(test_video)):2]
-print("processed test_video shape: ", test_video.shape) # (113, 224, 224, 3)
+print("processed test_video shape: ", test_video.shape) # [20, 3, 224, 224]
 test_video = test_video.cuda()
 test_video = test_video.to(torch.bfloat16)
 
 # Be sure to normalize the CLIP embedding after calculating it to make
 # cosine similarity between embeddings easier to calculate.
 test_video_embedding = F.normalize(echo_clip.encode_image(test_video), dim=-1)
+print("test_video_embedding shape: ", test_video_embedding.shape)
 
 # Add in a batch dimension because the zero-shot functions expect one
 test_video_embedding = test_video_embedding.unsqueeze(0)
