@@ -66,8 +66,14 @@ for idx,(path,split,label) in enumerate(zip(path_list, split_list, label_list)):
         test_video = np.stack(data, axis=-1)
         """
         test_video = np.stack(test_video, axis=-1)
+        #print(test_video.shape)
+        # process the data, do normalization
+        test_video = torch.stack(
+            [preprocess_val(T.ToPILImage()(frame)) for frame in test_video], dim=0
+        )
         print(test_video.shape)
         exit(0)
+
 
 exit(0)
 

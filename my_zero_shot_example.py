@@ -31,6 +31,7 @@ echo_clip, _, preprocess_val = create_model_and_transforms(
 # We'll load a sample echo video and preprocess its frames.
 test_video = read_avi(
     "example_video.avi",
+    # (250, 250), # this also works? yes
     (224, 224),
 )
 print(test_video)
