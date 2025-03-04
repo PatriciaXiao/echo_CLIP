@@ -26,11 +26,12 @@ test_video = read_avi(
     "example_video.avi",
     (224, 224),
 )
-print("test_video shape: ", test_video.shape)
+print("test_video shape: ", test_video.shape) # (113, 224, 224, 3)
 test_video = torch.stack(
     [preprocess_val(T.ToPILImage()(frame)) for frame in test_video], dim=0
 )
 test_video = test_video[0:min(40, len(test_video)):2]
+print("processed test_video shape: ", test_video.shape) # (113, 224, 224, 3)
 test_video = test_video.cuda()
 test_video = test_video.to(torch.bfloat16)
 
