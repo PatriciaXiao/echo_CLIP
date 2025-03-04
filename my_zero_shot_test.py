@@ -78,7 +78,7 @@ num_cases = len(dataset)
 for idx,(path,split,label) in enumerate(zip(path_list, split_list, label_list)):
     if path in out_data["path"]:
         print("({}/{}): already processed".format(idx+1, num_cases, path))
-    if os.path.exists(path):
+    elif os.path.exists(path):
         test_video = np.load(path)
         print("({}/{}): processing {}".format(idx+1, num_cases, path))
         #print(test_video.shape) # (3, 60, 256, 256)
@@ -117,11 +117,12 @@ for idx,(path,split,label) in enumerate(zip(path_list, split_list, label_list)):
         df = pd.DataFrame(data=out_data)
         df.to_csv(out_csv, index=None)
         #exit(0)
-        # debug
-        if idx > 10:
-            break
     else:
         print("({}/{}): {} refused access".format(idx+1, num_cases, path))
+
+    # debug
+    if idx > 10:
+        break
 
 
 df = pd.DataFrame(data=out_data)
