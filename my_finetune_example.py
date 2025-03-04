@@ -13,15 +13,15 @@ import pandas as pd
 import numpy as np
 import os
 
-# screen -S echo_clip_eval
+# screen -S echo_clip_finetune
 # conda activate echo-clip
 # CTRL+A and D
-# screen -r echo_clip_eval
+# screen -r echo_clip_finetune
 
 data_path = "/mnt/hanoverdev/data/patxiao/ECHO_numpy/20250126/"
 dataset_csv = "/home/patxiao/ECHO/label_dataset_v1/HF_mini.csv"
 
-out_csv = "/mnt/hanoverdev/data/patxiao/ECHO_results/HF_v1_mini/echo_clip_zeroshot.csv"
+out_csv = "/mnt/hanoverdev/data/patxiao/ECHO_results/HF_v1_mini/echo_clip_finetune.csv"
 
 # zero shot, no training
 dataset = pd.read_csv(dataset_csv)
