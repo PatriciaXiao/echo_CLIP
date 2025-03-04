@@ -40,8 +40,8 @@ if os.path.exists(out_csv):
     for field in out_data.keys():
         out_data[field] = list(saved_df[field])
 
-device_name
-device = torch.device("cuda:2")
+device_name = "cuda:2"
+device = torch.device(device_name)
 
 
 # You'll need to log in to the HuggingFace hub CLI to download the models
