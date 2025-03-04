@@ -8,6 +8,12 @@ from tqdm import tqdm
 
 from sklearn.metrics import roc_auc_score, average_precision_score, balanced_accuracy_score, f1_score, precision_score
 
+"""
+label_words = list(set(self.labels))
+label_words.sort()
+self.n_classes = len(label_words)
+self.label_dict = {label: i for i, label in enumerate(label_words)}
+"""
 
 # Metrics for classification
 def get_classification_metrics(prediction: torch.Tensor, ground_truth: torch.Tensor, label_dict: dict, mode='binary', threshold=0.5) -> Dict[str, float]:
