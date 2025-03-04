@@ -42,7 +42,7 @@ print("test_video_embedding shape: ", test_video_embedding.shape) # torch.Size([
 
 # Add in a batch dimension because the zero-shot functions expect one
 test_video_embedding = test_video_embedding.unsqueeze(0)
-print("processed test_video_embedding shape: ", test_video_embedding.shape) # torch.Size([20, 512])
+print("processed test_video_embedding shape: ", test_video_embedding.shape) # torch.Size([1, 20, 512])
 
 # To perform zero-shot prediction on our "echo" image, we'll need
 # prompts that describe the task we want to perform. For example,
