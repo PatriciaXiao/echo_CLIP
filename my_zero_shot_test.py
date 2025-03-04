@@ -11,6 +11,7 @@ from utils import (
 from finetune_encoder.eval_metrics import get_classification_metrics
 import pandas as pd
 import numpy as np
+import os
 
 # screen -S echo_clip_eval
 # conda activate echo-clip
