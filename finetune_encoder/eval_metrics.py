@@ -1,7 +1,7 @@
 """File for metric implementation across evaluation tasks."""
 
 import torch
-import monai
+#import monai
 import numpy as np
 from typing import Dict
 from tqdm import tqdm
@@ -88,4 +88,3 @@ def get_classification_metrics(prediction: torch.Tensor, ground_truth: torch.Ten
     
     return metrics
 
-    
