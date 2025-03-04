@@ -58,7 +58,7 @@ num_cases = len(dataset)
 for idx,(path,split,label) in enumerate(zip(path_list, split_list, label_list)):
     if os.path.exists(path):
         test_video = np.load(path)
-        print(text_video.shape)
+        print(test_video.shape)
         exit(0)
 
 exit(0)
