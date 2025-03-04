@@ -126,7 +126,7 @@ for idx,(path,split,label) in enumerate(zip(path_list, split_list, label_list)):
 
 
 df = pd.DataFrame(data=out_data)
-df = df[df["split"] == "test"]
+#df = df[df["split"] == "test"]
 
 pred_val = np.array(df["predict"])
 labels = np.array(df["label"])
