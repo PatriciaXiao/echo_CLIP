@@ -18,13 +18,13 @@ conda activate echo-clip
 conda install pip
 #python -m pip install -r requirements.txt
 #pip install -r requirements.txt
-pip install torch torchvision 
-pip install open_clip_torch 
-pip install huggingface_hub 
-pip install transformers
-pip install opencv-python-headless 
-pip install numpy Pillow scipy timm
-pip install matplotlib 
+python -m pip install torch torchvision 
+python -m pip install open_clip_torch 
+python -m pip install huggingface_hub 
+python -m pip install transformers
+python -m pip install opencv-python-headless 
+python -m pip install numpy Pillow scipy timm
+python -m pip install matplotlib 
 
 # to run fair evaluation as baseline
 #pip install monai
