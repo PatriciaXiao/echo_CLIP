@@ -90,7 +90,7 @@ from PIL import Image
 import os
 
 # Define Image Preprocessing
-transform = preprocess  # Use CLIP’s preprocessing
+transform = preprocess_val # Use CLIP’s preprocessing
 
 class EchoDataset(Dataset):
     def __init__(self, img_dir, labels, transform=None):
@@ -143,7 +143,6 @@ train_labels = dict(zip(list(train_set["path"]), list(train_set["label"])))
 val_labels = dict(zip(list(val_set["path"]), list(val_set["label"])))
 test_labels = dict(zip(list(test_set["path"]), list(test_set["label"])))
 
-transform = preprocess_val
 train_dataset = EchoDataset(img_dir, train_labels, transform=transform)
 val_dataset = EchoDataset(img_dir, val_labels, transform=transform)
 test_dataset = EchoDataset(img_dir, test_labels, transform=transform)
