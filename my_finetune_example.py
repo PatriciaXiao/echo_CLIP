@@ -199,13 +199,13 @@ optimizer = torch.optim.AdamW(model.parameters(), lr=1e-4, weight_decay=1e-4)
 
 
 
-def select_random_50_frames(tensor):
+def select_random_50_frames(tensor, n_frames=60):
     a, T, b, c, d = tensor.shape  # Get the shape
 
-    if T > 50:
+    if T > n_frames:
         # Randomly select a starting index ensuring 50 consecutive frames fit
-        start_idx = random.randint(0, T - 50)  
-        tensor = tensor[:, start_idx:start_idx + 50, :, :, :]  # Slice along axis 1
+        start_idx = random.randint(0, T - n_frames)  
+        tensor = tensor[:, start_idx:start_idx + n_frames, :, :, :]  # Slice along axis 1
 
     return tensor
 
@@ -218,7 +218,7 @@ def train(model, dataloader, criterion, optimizer, device):
     for batch_idx,(images, labels) in enumerate(dataloader):
         #print("\timages shape: ", images.shape)
         #exit(0)
-        images = select_random_50_frames(images)
+        images = select_random_frames(images, 60)
         images, labels = images.to(device), labels.to(device)
 
         optimizer.zero_grad()
