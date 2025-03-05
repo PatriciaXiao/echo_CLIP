@@ -175,9 +175,10 @@ train_dataset = EchoDataset(img_dir, train_labels, transform=transform)
 val_dataset = EchoDataset(img_dir, val_labels, transform=transform)
 test_dataset = EchoDataset(img_dir, test_labels, transform=transform)
 
-train_loader = DataLoader(train_dataset, batch_size=1, shuffle=False)#True)
-val_loader = DataLoader(val_dataset, batch_size=1, shuffle=False)
-val_loader = DataLoader(test_dataset, batch_size=1, shuffle=False)
+batch_size = 16
+train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=False)
+val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
+val_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
 
 
 # define loss and optim
@@ -191,7 +192,8 @@ def train(model, dataloader, criterion, optimizer, device):
     model.train()
     total_loss, correct, total = 0, 0, 0
 
-    for images, labels in dataloader:
+    total_batches = len(dataloader)
+    for batch_idx,(images, labels) in enumerate(dataloader):
         #print("images shape: ", images.shape)
         #exit(0)
         images, labels = images.to(device), labels.to(device)
@@ -208,6 +210,8 @@ def train(model, dataloader, criterion, optimizer, device):
         _, preds = torch.max(outputs, 1)
         correct += (preds == labels).sum().item()
         total += labels.size(0)
+
+        print("batch ({}/{}): loss {}".format(batch_idx+1, total_batches, loss.item()))
 
     return total_loss / len(dataloader), correct / total
 
