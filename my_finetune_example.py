@@ -25,21 +25,21 @@ dataset_csv = "/home/patxiao/ECHO/label_dataset_v1/HF_mini.csv"
 out_csv = "/mnt/hanoverdev/data/patxiao/ECHO_results/HF_v1_mini/echo_clip_finetune.csv"
 
 # zero shot, no training
-dataset = pd.read_csv(dataset_csv)
+#dataset = pd.read_csv(dataset_csv)
 #print(len(dataset))
-dataset = dataset[dataset["split"] != "train"]
+#dataset = dataset[dataset["split"] != "train"]
 #print(len(dataset))
 #print(dataset)
 
-path_list = [os.path.join(data_path, p) for p in list(dataset["path"])]
-split_list = list(dataset["split"])
-label_list = list(dataset["label"])
+#path_list = list(dataset["path"]) #[os.path.join(data_path, p) for p in list(dataset["path"])]
+#split_list = list(dataset["split"])
+#label_list = list(dataset["label"])
 
-out_data = {"path": list(), "label": list(), "split": list(), "predict": list()}
-if os.path.exists(out_csv):
-    saved_df = pd.read_csv(out_csv)
-    for field in out_data.keys():
-        out_data[field] = list(saved_df[field])
+#out_data = {"path": list(), "label": list(), "split": list(), "predict": list()}
+#if os.path.exists(out_csv):
+#    saved_df = pd.read_csv(out_csv)
+#    for field in out_data.keys():
+ #       out_data[field] = list(saved_df[field])
 
 device_name = "cuda:1"
 device = torch.device(device_name)
@@ -81,6 +81,125 @@ for param in model.encoder.parameters():
 # Unfreeze the last transformer block (ViT) or last few layers (ResNet)
 for param in list(model.encoder.parameters())[-5:]:
     param.requires_grad = True
+
+# prepare the dataset
+
+from torchvision import transforms
+from torch.utils.data import DataLoader, Dataset
+from PIL import Image
+import os
+
+# Define Image Preprocessing
+transform = preprocess  # Use CLIP’s preprocessing
+
+class EchoDataset(Dataset):
+    def __init__(self, img_dir, labels, transform=None):
+        self.img_dir = img_dir
+        self.labels = labels  # Dictionary {filename: class_index}
+        self.transform = transform
+
+    def __len__(self):
+        return len(self.labels)
+
+    def __getitem__(self, idx):
+        img_name = list(self.labels.keys())[idx]
+        img_path = os.path.join(self.img_dir, img_name)
+
+        #image = Image.open(img_path).convert("RGB")
+        label = self.labels[img_name]
+
+        #if self.transform:
+        #    image = self.transform(image)
+
+        image = np.load(img_path)
+        image = np.stack(image, axis=-1)
+        if self.transform:
+            # process the data, do normalization
+            image = torch.stack(
+                [self.transform(T.ToPILImage()(frame)) for frame in image], dim=0
+            )
+
+        return image, label
+
+# Example usage
+img_dir = data_path #"path_to_images"
+#labels = {"image1.jpg": 0, "image2.jpg": 1, "image3.jpg": 2}  # Replace with actual labels
+
+dataset = pd.read_csv(dataset_csv)
+#print(len(dataset))
+#dataset = dataset[dataset["split"] != "train"]
+#print(len(dataset))
+#print(dataset)
+
+train_set = dataset[dataset["split"] == "train"]
+val_set = dataset[dataset["split"] == "val"]
+test_set = dataset[dataset["split"] == "test"]
+
+#path_list = list(dataset["path"]) #[os.path.join(data_path, p) for p in list(dataset["path"])]
+#split_list = list(dataset["split"])
+#label_list = list(dataset["label"])
+
+train_labels = dict(zip(list(train_set["path"]), list(train_set["label"])))
+val_labels = dict(zip(list(val_set["path"]), list(val_set["label"])))
+test_labels = dict(zip(list(test_set["path"]), list(test_set["label"])))
+
+transform = preprocess_val
+train_dataset = EchoDataset(img_dir, train_labels, transform=transform)
+val_dataset = EchoDataset(img_dir, val_labels, transform=transform)
+test_dataset = EchoDataset(img_dir, test_labels, transform=transform)
+
+train_loader = DataLoader(train_dataset, batch_size=1, shuffle=True)
+val_loader = DataLoader(val_dataset, batch_size=1, shuffle=False)
+val_loader = DataLoader(test_dataset, batch_size=1, shuffle=False)
+
+
+# define loss and optim
+
+criterion = nn.CrossEntropyLoss()
+optimizer = torch.optim.AdamW(model.parameters(), lr=1e-4, weight_decay=1e-4)
+
+
+# training
+def train(model, dataloader, criterion, optimizer, device):
+    model.train()
+    total_loss, correct, total = 0, 0, 0
+
+    for images, labels in dataloader:
+        images, labels = images.to(device), labels.to(device)
+
+        optimizer.zero_grad()
+        outputs = model(images)
+        loss = criterion(outputs, labels)
+        loss.backward()
+        optimizer.step()
+
+        total_loss += loss.item()
+        _, preds = torch.max(outputs, 1)
+        correct += (preds == labels).sum().item()
+        total += labels.size(0)
+
+    return total_loss / len(dataloader), correct / total
+
+def evaluate(model, dataloader, device):
+    model.eval()
+    correct, total = 0, 0
+
+    with torch.no_grad():
+        for images, labels in dataloader:
+            images, labels = images.to(device), labels.to(device)
+            outputs = model(images)
+            _, preds = torch.max(outputs, 1)
+            correct += (preds == labels).sum().item()
+            total += labels.size(0)
+
+    return correct / total  # Accuracy
+
+# run training
+for epoch in range(1):  #10 # Adjust epochs
+    train_loss, train_acc = train(model, train_loader, criterion, optimizer, device)
+    val_acc = evaluate(model, val_loader, device)
+    print(f"Epoch {epoch+1}: Train Loss = {train_loss:.4f}, Train Acc = {train_acc:.4f}, Val Acc = {val_acc:.4f}")
+
 
 exit(0)
 
