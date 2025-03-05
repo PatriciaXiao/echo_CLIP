@@ -134,7 +134,8 @@ df = df[df["split"] == "test"]
 pred_val = np.array(df["predict"])
 labels = np.array(df["label"])
 output = torch.Tensor(np.column_stack((1 - pred_val, pred_val)))
-target = torch.Tensor(labels.reshape(-1, 1))
+#target = torch.Tensor(labels.reshape(-1, 1))
+target = torch.Tensor(labels)
 
 label_dict = {0:0, 1:1}
 mode = "binary"
