@@ -210,6 +210,8 @@ def select_random_frames(tensor, n_frames=60):
 
     return tensor
 
+interval = 1 if debug else 10
+
 # training
 def train(model, dataloader, criterion, optimizer, device):
     model.train()
@@ -235,7 +237,7 @@ def train(model, dataloader, criterion, optimizer, device):
         correct += (preds == labels).sum().item()
         total += labels.size(0)
 
-        if (batch_idx+1) % 10 == 0:
+        if (batch_idx+1) % interval == 0:
             print("\tbatch ({}/{}): loss {}".format(batch_idx+1, total_batches, loss.item()))
 
     return total_loss / len(dataloader), correct / total
