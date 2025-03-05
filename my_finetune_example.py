@@ -199,7 +199,7 @@ optimizer = torch.optim.AdamW(model.parameters(), lr=1e-4, weight_decay=1e-4)
 
 
 
-def select_random_50_frames(tensor, n_frames=60):
+def select_random_frames(tensor, n_frames=60):
     a, T, b, c, d = tensor.shape  # Get the shape
 
     if T > n_frames:
