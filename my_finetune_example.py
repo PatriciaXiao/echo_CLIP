@@ -60,6 +60,13 @@ echo_clip, _, preprocess_val = create_model_and_transforms(
 #print(image_encoder)
 
 image_encoder = echo_clip #.to(device)
+for param in image_encoder.transformer.parameters():  # CLIP text encoder
+    param.requires_grad = False
+for param in image_encoder.visual.parameters():
+    param.requires_grad = False  # Freeze all layers
+#Unfreeze the last transformer block (ViT) or last few layers (ResNet)
+for param in list(image_encoder.visual.encoder.parameters())[-5:]:
+    param.requires_grad = True
 
 # for param in model.transformer.parameters():  # CLIP text encoder
 #     param.requires_grad = False
@@ -89,14 +96,6 @@ model = EchoClassifier(image_encoder, num_classes).to(device)
 # Unfreeze the last transformer block (ViT) or last few layers (ResNet)
 #for param in list(model.encoder.parameters())[-5:]:
 #    param.requires_grad = True
-
-for param in model.transformer.parameters():  # CLIP text encoder
-    param.requires_grad = False
-for param in model.visual.parameters():
-    param.requires_grad = False  # Freeze all layers
-#Unfreeze the last transformer block (ViT) or last few layers (ResNet)
-for param in list(model.visual.encoder.parameters())[-5:]:
-    param.requires_grad = True
 
 # prepare the dataset
 
