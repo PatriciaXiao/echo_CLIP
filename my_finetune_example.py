@@ -136,8 +136,8 @@ class EchoDataset(Dataset):
             )
             # turn it into echo clip image encoding
             image = F.normalize(echo_clip.encode_image(image), dim=-1)
-        # Add in a batch dimension because the zero-shot functions expect one
-        test_video_embedding = test_video_embedding.unsqueeze(0)
+            # Add in a batch dimension because the zero-shot functions expect one
+            image = image.unsqueeze(0)
 
         return image, label
 
