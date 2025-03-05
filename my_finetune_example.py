@@ -77,8 +77,8 @@ class EchoClassifier(nn.Module):
     def forward(self, x):
         print("x in: ", x.shape)
         #x = self.encoder(x)  # Extract image features
-        # encoded_videos = torch.stack([echo_clip.encode_image(video) for video in test_videos])
-        x = F.normalize(self.encoder.encode_image(image), dim=-1)
+        x = torch.stack([echo_clip.encode_image(video) for video in x])
+        x = F.normalize(self.encoder.encode_image(x), dim=-1)
         # Add in a batch dimension because the zero-shot functions expect one
         #x = x.unsqueeze(0)
         print("x encoded: ", x.shape)
