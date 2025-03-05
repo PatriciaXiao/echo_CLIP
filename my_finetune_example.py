@@ -247,7 +247,7 @@ def evaluate(model, dataloader, device):
 
     with torch.no_grad():
         for images, labels in dataloader:
-            images = select_random_frames(images, 60)
+            images = select_random_frames(images, 120)
             images, labels = images.to(device), labels.to(device)
             outputs = model(images)
             #print(outputs.shape, labels.shape)
