@@ -127,9 +127,11 @@ class EchoDataset(Dataset):
         image = np.stack(image, axis=-1)
         if self.transform:
             # process the data, do normalization
+            print("img shape raw: ", image.shape)
             image = torch.stack(
                 [self.transform(T.ToPILImage()(frame)) for frame in image], dim=0
             )
+            print("img shape preprocessed: ", image.shape)
             # turn it into echo clip image encoding
             image = image.to(device)
             image = image.to(torch.bfloat16)
