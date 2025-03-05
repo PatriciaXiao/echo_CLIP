@@ -182,6 +182,8 @@ def train(model, dataloader, criterion, optimizer, device):
     total_loss, correct, total = 0, 0, 0
 
     for images, labels in dataloader:
+        print(images.shape)
+        exit(0)
         images, labels = images.to(device), labels.to(device)
 
         optimizer.zero_grad()
@@ -203,8 +205,6 @@ def evaluate(model, dataloader, device):
 
     with torch.no_grad():
         for images, labels in dataloader:
-            print(images.shape)
-            exit(0)
             images, labels = images.to(device), labels.to(device)
             outputs = model(images)
             _, preds = torch.max(outputs, 1)
