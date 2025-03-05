@@ -77,6 +77,7 @@ class EchoClassifier(nn.Module):
     def forward(self, x):
         print("x in: ", x.shape)
         #x = self.encoder(x)  # Extract image features
+        # encoded_videos = torch.stack([echo_clip.encode_image(video) for video in test_videos])
         x = F.normalize(self.encoder.encode_image(image), dim=-1)
         # Add in a batch dimension because the zero-shot functions expect one
         #x = x.unsqueeze(0)
@@ -136,7 +137,7 @@ class EchoDataset(Dataset):
             )
             #print("img shape preprocessed: ", image.shape)
             # # turn it into echo clip image encoding
-            image = image.to(device)
+            #image = image.to(device)
             image = image.to(torch.bfloat16)
             # image = F.normalize(echo_clip.encode_image(image), dim=-1)
             # # Add in a batch dimension because the zero-shot functions expect one
@@ -187,8 +188,8 @@ def train(model, dataloader, criterion, optimizer, device):
     total_loss, correct, total = 0, 0, 0
 
     for images, labels in dataloader:
-        print(images.shape)
-        exit(0)
+        print("images shape: " images.shape)
+        #exit(0)
         images, labels = images.to(device), labels.to(device)
 
         optimizer.zero_grad()
