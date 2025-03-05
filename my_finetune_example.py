@@ -244,6 +244,9 @@ def evaluate(model, dataloader, device):
             #correct += (preds == labels).sum().item()
             #total += labels.size(0)
 
+            print(outputs.item().cpu().numpy().shape)
+            print(outputs.item().cpu().numpy()[0,:].shape)
+
             output.append(outputs.item()[0].cpu().numpy())
             target.append(labels.item().cpu().numpy())
 
