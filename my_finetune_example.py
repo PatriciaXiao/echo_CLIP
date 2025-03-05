@@ -165,7 +165,7 @@ train_dataset = EchoDataset(img_dir, train_labels, transform=transform)
 val_dataset = EchoDataset(img_dir, val_labels, transform=transform)
 test_dataset = EchoDataset(img_dir, test_labels, transform=transform)
 
-train_loader = DataLoader(train_dataset, batch_size=1, shuffle=True)
+train_loader = DataLoader(train_dataset, batch_size=1, shuffle=False)#True)
 val_loader = DataLoader(val_dataset, batch_size=1, shuffle=False)
 val_loader = DataLoader(test_dataset, batch_size=1, shuffle=False)
 
