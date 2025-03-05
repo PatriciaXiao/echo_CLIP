@@ -41,7 +41,7 @@ out_csv = "/mnt/hanoverdev/data/patxiao/ECHO_results/HF_v1_mini/echo_clip_finetu
 #    for field in out_data.keys():
  #       out_data[field] = list(saved_df[field])
 
-device_name = "cuda:1"
+device_name = "cuda:2"
 device = torch.device(device_name)
 
 
