@@ -268,7 +268,7 @@ def evaluate(model, dataloader, device):
     #print(np.array(output).shape, np.array(target).shape)
     #exit(0)
 
-    label_dict = {label: i for i, label in enumerate(label_words[:,0])}
+    label_dict = {label: i for i, label in enumerate(target[:,0])}
     print(label_dict)
     exit(0)
 
