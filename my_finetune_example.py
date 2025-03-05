@@ -262,7 +262,8 @@ def evaluate(model, dataloader, device):
             #total += labels.size(0)
 
             output.append(outputs.detach()[0].cpu().numpy())
-            target.append([labels.item()])
+            #target.append([labels.item()])
+            target.append(labels.item())
 
     #print(output)
     #print(target)
