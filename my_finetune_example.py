@@ -160,11 +160,16 @@ dataset = pd.read_csv(dataset_csv)
 #print(dataset)
 
 # for debug:
-dataset = dataset.head(100) #dataset[:100]
+if debug:
+    dataset = dataset.head(100) #dataset[:100]
 
 train_set = dataset[dataset["split"] == "train"]
 val_set = dataset[dataset["split"] == "val"]
 test_set = dataset[dataset["split"] == "test"]
+
+if debug:
+    val_set = train_set
+    test_set = train_set
 
 #path_list = list(dataset["path"]) #[os.path.join(data_path, p) for p in list(dataset["path"])]
 #split_list = list(dataset["split"])
