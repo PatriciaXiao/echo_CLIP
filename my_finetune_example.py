@@ -234,7 +234,7 @@ def train(model, dataloader, criterion, optimizer, device):
         correct += (preds == labels).sum().item()
         total += labels.size(0)
 
-        print("batch ({}/{}): loss {}".format(batch_idx+1, total_batches, loss.item()))
+        print("\tbatch ({}/{}): loss {}".format(batch_idx+1, total_batches, loss.item()))
 
     return total_loss / len(dataloader), correct / total
 
