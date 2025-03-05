@@ -12,6 +12,7 @@ from finetune_encoder.eval_metrics import get_classification_metrics
 import pandas as pd
 import numpy as np
 import os
+import torch.nn as nn
 
 # screen -S echo_clip_finetune
 # conda activate echo-clip
@@ -56,7 +57,30 @@ echo_clip, _, preprocess_val = create_model_and_transforms(
 )
 
 image_encoder = echo_clip.visual #.to(device)
-print(image_encoder)
+#print(image_encoder)
+
+class EchoClassifier(nn.Module):
+    def __init__(self, image_encoder, num_classes):
+        super(EchoClassifier, self).__init__()
+        self.encoder = image_encoder  # Use CLIP image encoder
+        self.fc = nn.Linear(512, num_classes)  # This encoder's output dimension is indeed 512 dim
+
+    def forward(self, x):
+        x = self.encoder(x)  # Extract image features
+        x = self.fc(x)  # Classification head
+        return x
+
+num_classes = 2  # Example: 4 for "normal", "mild", "moderate", "severe"
+model = EchoClassifier(image_encoder, num_classes).to(device)
+
+#Fine-tuning only the last few layers prevents overfitting:
+
+for param in model.encoder.parameters():
+    param.requires_grad = False  # Freeze all layers
+
+# Unfreeze the last transformer block (ViT) or last few layers (ResNet)
+for param in list(model.encoder.parameters())[-5:]:
+    param.requires_grad = True
 
 exit(0)
 
