@@ -76,7 +76,10 @@ class EchoClassifier(nn.Module):
 
     def forward(self, x):
         print("x in: ", x.shape)
-        x = self.encoder(x)  # Extract image features
+        #x = self.encoder(x)  # Extract image features
+        x = F.normalize(self.encoder.encode_image(image), dim=-1)
+        # Add in a batch dimension because the zero-shot functions expect one
+        #x = x.unsqueeze(0)
         print("x encoded: ", x.shape)
         exit(0)
         x = self.fc(x)  # Classification head
@@ -127,17 +130,17 @@ class EchoDataset(Dataset):
         image = np.stack(image, axis=-1)
         if self.transform:
             # process the data, do normalization
-            print("img shape raw: ", image.shape)
+            #print("img shape raw: ", image.shape)
             image = torch.stack(
                 [self.transform(T.ToPILImage()(frame)) for frame in image], dim=0
             )
-            print("img shape preprocessed: ", image.shape)
-            # turn it into echo clip image encoding
+            #print("img shape preprocessed: ", image.shape)
+            # # turn it into echo clip image encoding
             image = image.to(device)
             image = image.to(torch.bfloat16)
-            image = F.normalize(echo_clip.encode_image(image), dim=-1)
-            # Add in a batch dimension because the zero-shot functions expect one
-            image = image.unsqueeze(0)
+            # image = F.normalize(echo_clip.encode_image(image), dim=-1)
+            # # Add in a batch dimension because the zero-shot functions expect one
+            # image = image.unsqueeze(0)
 
         return image, label
 
