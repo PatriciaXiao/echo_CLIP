@@ -268,15 +268,15 @@ def evaluate(model, dataloader, device):
     #print(np.array(output).shape, np.array(target).shape)
     #exit(0)
 
-    label_dict = {label: i for i, label in enumerate(np.array(target)[:,0])}
-    print(np.array(target)[:,0])
-    print(label_dict)
-    exit(0)
+    #label_dict = {label: i for i, label in enumerate(np.array(target)[:,0])}
+    #print(np.array(target)[:,0])
+    #print(label_dict)
+    #exit(0)
 
     output = torch.Tensor(np.array(output))
     target = torch.Tensor(np.array(target))
 
-    #label_dict = {0:0, 1:1}
+    label_dict = {0:0, 1:1}
     
     mode = "binary"
 

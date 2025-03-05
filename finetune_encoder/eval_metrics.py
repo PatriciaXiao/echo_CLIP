@@ -28,6 +28,8 @@ def get_classification_metrics(prediction: torch.Tensor, ground_truth: torch.Ten
         probs = torch.functional.F.softmax(torch.tensor(prediction), dim=1)[:, 1].numpy()
         prediction = torch.argmax(torch.tensor(prediction), dim=1).numpy()
         accuracy = (prediction == labels).sum().item() / len(labels)
+        print(prediction, label, accuracy)
+        #exit(0)
         auroc, auprc = roc_auc_score(labels, probs), average_precision_score(labels, probs)
         bacc = balanced_accuracy_score(labels, prediction)
         f1 = f1_score(labels, prediction)
