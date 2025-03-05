@@ -87,7 +87,8 @@ class EchoClassifier(nn.Module):
         # torch.Size([1, 56, 2])
         pooled_x = x.mean(dim=1)  # Shape: [1, 2]
         #print(x.shape)
-        return x
+        #return x
+        return pooled_x
 
 num_classes = 2  # Example: 4 for "normal", "mild", "moderate", "severe"
 model = EchoClassifier(image_encoder, num_classes).to(device)
@@ -191,7 +192,7 @@ def train(model, dataloader, criterion, optimizer, device):
     total_loss, correct, total = 0, 0, 0
 
     for images, labels in dataloader:
-        print("images shape: ", images.shape)
+        #print("images shape: ", images.shape)
         #exit(0)
         images, labels = images.to(device), labels.to(device)
 
