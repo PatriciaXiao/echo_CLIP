@@ -78,7 +78,7 @@ class EchoClassifier(nn.Module):
         #print("x in: ", x.shape) # x in:  torch.Size([1, 56, 3, 224, 224])
         #x = self.encoder(x)  # Extract image features
         x = torch.stack([echo_clip.encode_image(video) for video in x])
-        x = F.normalize(x, dim=-1)
+        x = F.normalize(x, dim=-1).to(torch.float32)
         # Add in a batch dimension because the zero-shot functions expect one
         #x = x.unsqueeze(0)
         #print("x encoded: ", x.shape)
