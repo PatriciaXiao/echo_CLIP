@@ -250,8 +250,8 @@ def evaluate(model, dataloader, device):
     #print(output)
     #print(target)
     
-    print(np.array(output).shape, np.array(target).shape)
-    exit(0)
+    #print(np.array(output).shape, np.array(target).shape)
+    #exit(0)
 
 
     output = torch.Tensor(np.array(output))
