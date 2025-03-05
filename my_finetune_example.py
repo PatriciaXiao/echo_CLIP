@@ -55,31 +55,10 @@ echo_clip, _, preprocess_val = create_model_and_transforms(
     "hf-hub:mkaichristensen/echo-clip", precision="bf16", device=device_name
 )
 
-print(echo_clip)
+image_encoder = echo_clip.visual #.to(device)
+print(image_encoder)
+
 exit(0)
-
-# echo_clip.encode_image
-
-heart_failure_prompts = [
-    "ECHO FINDINGS OF LEFT VENTRICULAR DILATION AND REDUCED EJECTION FRACTION, SUGGESTIVE OF LEFT-SIDED HEART FAILURE.",
-    "INCREASED LEFT VENTRICULAR WALL THICKNESS AND IMPAIRED DIASTOLIC RELAXATION, CONSISTENT WITH HEART FAILURE WITH PRESERVED EJECTION FRACTION.",
-    "RIGHT VENTRICULAR DILATION AND REDUCED TAPSE, SUGGESTIVE OF RIGHT-SIDED HEART FAILURE.",
-    "DILATED INFERIOR VENA CAVA WITH REDUCED COLLAPSIBILITY, INDICATIVE OF ELEVATED RIGHT ATRIAL PRESSURE AND RIGHT HEART FAILURE."
-]
-#pacemaker_prompts = zero_shot_prompts["pacemaker"]
-#print(pacemaker_prompts) # 2 lines
-print("heart failure prompts: ", heart_failure_prompts)
-
-# We'll use the CLIP BPE tokenizer to tokenize the prompts
-#heart_failure_prompts = tokenize(heart_failure_prompts).cuda()
-heart_failure_prompts = tokenize(heart_failure_prompts).to(device)
-#print("heart failure prompts: ", heart_failure_prompts)
-
-# Now we can encode the prompts into embeddings
-heart_failure_prompts_embeddings = F.normalize(
-    echo_clip.encode_text(heart_failure_prompts), dim=-1
-)
-#print(heart_failure_prompts_embeddings.shape)
 
 num_cases = len(dataset)
 for idx,(path,split,label) in enumerate(zip(path_list, split_list, label_list)):
@@ -111,9 +90,9 @@ for idx,(path,split,label) in enumerate(zip(path_list, split_list, label_list)):
         # Add in a batch dimension because the zero-shot functions expect one
         test_video_embedding = test_video_embedding.unsqueeze(0)
 
-        heart_failure_predictions = compute_binary_metric(
-            test_video_embedding, heart_failure_prompts_embeddings
-        )
+        #heart_failure_predictions = compute_binary_metric(
+        #    test_video_embedding, heart_failure_prompts_embeddings
+        #)
 
         predict = heart_failure_predictions.item()
 
