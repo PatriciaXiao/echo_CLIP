@@ -84,7 +84,9 @@ class EchoClassifier(nn.Module):
         #print("x encoded: ", x.shape)
         #exit(0) # x encoded:  torch.Size([1, 56, 512])
         x = self.fc(x)  # Classification head
-        print(x.shape)
+        # torch.Size([1, 56, 2])
+        pooled_x = x.mean(dim=1)  # Shape: [1, 2]
+        #print(x.shape)
         return x
 
 num_classes = 2  # Example: 4 for "normal", "mild", "moderate", "severe"
