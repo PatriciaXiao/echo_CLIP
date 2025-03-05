@@ -237,13 +237,13 @@ def evaluate(model, dataloader, device):
             outputs = model(images)
             #print(outputs.shape, labels.shape)
             #exit(0)
-            labels = labels.unsqueeze(1)
+            #labels = labels.unsqueeze(1)
             #_, preds = torch.max(outputs, 1)
             #correct += (preds == labels).sum().item()
             #total += labels.size(0)
 
-            output += outputs.cpu().numpy()
-            target += labels.cpu().numpy()
+            output.append(outputs[0].cpu().numpy())
+            target.append(labels.cpu().numpy())
 
 
     output = torch.Tensor(np.array(output))
