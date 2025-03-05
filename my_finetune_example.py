@@ -63,10 +63,7 @@ image_encoder = echo_clip #.to(device)
 for param in image_encoder.transformer.parameters():  # CLIP text encoder
     param.requires_grad = False
 for param in image_encoder.visual.parameters():
-    param.requires_grad = False  # Freeze all layers
-#Unfreeze the last transformer block (ViT) or last few layers (ResNet)
-for param in list(image_encoder.visual.encoder.parameters())[-5:]:
-    param.requires_grad = True
+    param.requires_grad = True 
 
 # for param in model.transformer.parameters():  # CLIP text encoder
 #     param.requires_grad = False
