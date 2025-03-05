@@ -188,7 +188,7 @@ def train(model, dataloader, criterion, optimizer, device):
     total_loss, correct, total = 0, 0, 0
 
     for images, labels in dataloader:
-        print("images shape: " images.shape)
+        print("images shape: ", images.shape)
         #exit(0)
         images, labels = images.to(device), labels.to(device)
 
