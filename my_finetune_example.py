@@ -247,6 +247,10 @@ def evaluate(model, dataloader, device):
             output.append(outputs[0].cpu().numpy())
             target.append(labels.cpu().numpy())
 
+            print(output)
+            print(target)
+            input()
+
 
     output = torch.Tensor(np.array(output))
     target = torch.Tensor(np.array(target))
