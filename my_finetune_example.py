@@ -162,7 +162,7 @@ dataset = pd.read_csv(dataset_csv)
 # for debug:
 debug = True
 if debug:
-    dataset = dataset.head(100) #dataset[:100]
+    dataset = dataset.head(10) #dataset[:100]
 
 train_set = dataset[dataset["split"] == "train"]
 val_set = dataset[dataset["split"] == "val"]
