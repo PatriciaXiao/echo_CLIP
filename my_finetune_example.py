@@ -75,14 +75,14 @@ class EchoClassifier(nn.Module):
         self.fc = nn.Linear(512, num_classes)  # This encoder's output dimension is indeed 512 dim
 
     def forward(self, x):
-        print("x in: ", x.shape)
+        #print("x in: ", x.shape) # x in:  torch.Size([1, 56, 3, 224, 224])
         #x = self.encoder(x)  # Extract image features
         x = torch.stack([echo_clip.encode_image(video) for video in x])
         x = F.normalize(x, dim=-1)
         # Add in a batch dimension because the zero-shot functions expect one
         #x = x.unsqueeze(0)
-        print("x encoded: ", x.shape)
-        exit(0)
+        #print("x encoded: ", x.shape)
+        #exit(0) # x encoded:  torch.Size([1, 56, 512])
         x = self.fc(x)  # Classification head
         return x
 
