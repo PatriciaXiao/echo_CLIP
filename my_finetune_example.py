@@ -259,7 +259,8 @@ def evaluate(model, dataloader, device):
     #return correct / total  # Accuracy
 
 # run training
-for epoch in range(1):  #10 # Adjust epochs
+n_epochs = 1 if debug else 10
+for epoch in range(n_epochs):  #10 # Adjust epochs
     train_loss, train_acc = train(model, train_loader, criterion, optimizer, device)
     val_acc = evaluate(model, val_loader, device)
     print(f"Epoch {epoch+1}: Train Loss = {train_loss:.4f}, Train Acc = {train_acc:.4f}, Val Acc = {val_acc:.4f}")
