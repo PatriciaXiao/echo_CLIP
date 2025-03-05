@@ -219,7 +219,7 @@ def train(model, dataloader, criterion, optimizer, device):
     for batch_idx,(images, labels) in enumerate(dataloader):
         #print("\timages shape: ", images.shape)
         #exit(0)
-        images = select_random_frames(images, 60)
+        images = select_random_frames(images, 120)
         images, labels = images.to(device), labels.to(device)
 
         optimizer.zero_grad()
