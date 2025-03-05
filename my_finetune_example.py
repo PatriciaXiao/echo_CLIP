@@ -161,7 +161,7 @@ dataset = pd.read_csv(dataset_csv)
 #print(dataset)
 
 # for debug:
-debug = False
+debug = True
 if debug:
     dataset = dataset.head(3) # 10 #dataset[:100]
 
