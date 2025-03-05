@@ -244,8 +244,8 @@ def evaluate(model, dataloader, device):
             #correct += (preds == labels).sum().item()
             #total += labels.size(0)
 
-            output.append(outputs[0].cpu().numpy())
-            target.append(labels.cpu().numpy())
+            output.append(outputs.item()[0].cpu().numpy())
+            target.append(labels.item().cpu().numpy())
 
     print(output)
     print(target)
@@ -270,7 +270,7 @@ n_epochs = 1 if debug else 10
 for epoch in range(n_epochs):  #10 # Adjust epochs
     train_loss, train_acc = train(model, train_loader, criterion, optimizer, device)
     val_acc = evaluate(model, val_loader, device)
-    print(f"Epoch {epoch+1}: Train Loss = {train_loss:.4f}, Train Acc = {train_acc:.4f}, Val Acc = {val_acc:.4f}")
+    #print(f"Epoch {epoch+1}: Train Loss = {train_loss:.4f}, Train Acc = {train_acc:.4f}, Val Acc = {val_acc:.4f}")
 
 
 exit(0)
