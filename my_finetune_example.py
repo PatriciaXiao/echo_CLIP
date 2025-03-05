@@ -226,19 +226,37 @@ def train(model, dataloader, criterion, optimizer, device):
 
 def evaluate(model, dataloader, device):
     model.eval()
-    correct, total = 0, 0
+    #correct, total = 0, 0
+
+    output = list()
+    target = list()
 
     with torch.no_grad():
         for images, labels in dataloader:
             images, labels = images.to(device), labels.to(device)
             outputs = model(images)
-            print(outputs.shape, labels.shape)
-            exit(0)
-            _, preds = torch.max(outputs, 1)
-            correct += (preds == labels).sum().item()
-            total += labels.size(0)
+            #print(outputs.shape, labels.shape)
+            #exit(0)
+            labels = labels.unsqueeze(1)
+            #_, preds = torch.max(outputs, 1)
+            #correct += (preds == labels).sum().item()
+            #total += labels.size(0)
 
-    return correct / total  # Accuracy
+            output += outputs.cpu().numpy()
+            target += labels.cpu().numpy()
+
+
+    output = torch.Tensor(np.array(output))
+    target = torch.Tensor(np.array(target))
+
+    label_dict = {0:0, 1:1}
+    mode = "binary"
+
+    #print(output, target, label_dict, mode)
+    eval_stats = get_classification_metrics(output, target, label_dict, mode=mode)
+    print(eval_stats)
+
+    #return correct / total  # Accuracy
 
 # run training
 for epoch in range(1):  #10 # Adjust epochs
