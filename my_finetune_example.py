@@ -205,7 +205,7 @@ def train(model, dataloader, criterion, optimizer, device):
 
     total_batches = len(dataloader)
     for batch_idx,(images, labels) in enumerate(dataloader):
-        print("images shape: ", images.shape)
+        print("\timages shape: ", images.shape)
         #exit(0)
         images, labels = images.to(device), labels.to(device)
 
