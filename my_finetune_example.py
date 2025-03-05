@@ -13,6 +13,7 @@ import pandas as pd
 import numpy as np
 import os
 import torch.nn as nn
+import random
 
 # screen -S echo_clip_finetune
 # conda activate echo-clip
