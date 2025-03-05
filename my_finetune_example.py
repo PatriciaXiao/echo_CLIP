@@ -168,6 +168,8 @@ train_set = dataset[dataset["split"] == "train"]
 val_set = dataset[dataset["split"] == "val"]
 test_set = dataset[dataset["split"] == "test"]
 
+val_set = train_set
+
 if debug:
     val_set = train_set
     test_set = train_set
