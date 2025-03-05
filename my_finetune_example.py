@@ -159,6 +159,9 @@ dataset = pd.read_csv(dataset_csv)
 #print(len(dataset))
 #print(dataset)
 
+# for debug:
+dataset = dataset[:100]
+
 train_set = dataset[dataset["split"] == "train"]
 val_set = dataset[dataset["split"] == "val"]
 test_set = dataset[dataset["split"] == "test"]
