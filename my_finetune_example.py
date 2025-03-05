@@ -56,8 +56,13 @@ echo_clip, _, preprocess_val = create_model_and_transforms(
     "hf-hub:mkaichristensen/echo-clip", precision="bf16", device=device_name
 )
 
-image_encoder = echo_clip.visual #.to(device)
+#image_encoder = echo_clip.visual #.to(device)
 #print(image_encoder)
+
+image_encoder = echo_clip #.to(device)
+
+# for param in model.transformer.parameters():  # CLIP text encoder
+#     param.requires_grad = False
 
 class EchoClassifier(nn.Module):
     def __init__(self, image_encoder, num_classes):
@@ -66,7 +71,10 @@ class EchoClassifier(nn.Module):
         self.fc = nn.Linear(512, num_classes)  # This encoder's output dimension is indeed 512 dim
 
     def forward(self, x):
+        print("x in: ", x.shape)
         x = self.encoder(x)  # Extract image features
+        print("x encoded: ", x.shape)
+        exit(0)
         x = self.fc(x)  # Classification head
         return x
 
@@ -75,11 +83,19 @@ model = EchoClassifier(image_encoder, num_classes).to(device)
 
 #Fine-tuning only the last few layers prevents overfitting:
 
-for param in model.encoder.parameters():
-    param.requires_grad = False  # Freeze all layers
+#for param in model.encoder.parameters():
+#    param.requires_grad = False  # Freeze all layers
 
 # Unfreeze the last transformer block (ViT) or last few layers (ResNet)
-for param in list(model.encoder.parameters())[-5:]:
+#for param in list(model.encoder.parameters())[-5:]:
+#    param.requires_grad = True
+
+for param in model.transformer.parameters():  # CLIP text encoder
+    param.requires_grad = False
+for param in model.visual.parameters():
+    param.requires_grad = False  # Freeze all layers
+#Unfreeze the last transformer block (ViT) or last few layers (ResNet)
+for param in list(model.visual.encoder.parameters())[-5:]:
     param.requires_grad = True
 
 # prepare the dataset
@@ -118,6 +134,10 @@ class EchoDataset(Dataset):
             image = torch.stack(
                 [self.transform(T.ToPILImage()(frame)) for frame in image], dim=0
             )
+            # turn it into echo clip image encoding
+            image = F.normalize(echo_clip.encode_image(image), dim=-1)
+        # Add in a batch dimension because the zero-shot functions expect one
+        test_video_embedding = test_video_embedding.unsqueeze(0)
 
         return image, label
 
