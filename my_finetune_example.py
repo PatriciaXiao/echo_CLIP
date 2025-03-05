@@ -244,16 +244,14 @@ def evaluate(model, dataloader, device):
             #correct += (preds == labels).sum().item()
             #total += labels.size(0)
 
-            print(outputs.item().cpu().numpy().shape)
-            print(outputs.item().cpu().numpy()[0,:].shape)
-
-            output.append(outputs.item()[0].cpu().numpy())
-            target.append(labels.item().cpu().numpy())
+            output.append(outputs.detach()[0].cpu().numpy())
+            target.append(labels.item())
 
     print(output)
     print(target)
     
     print(np.array(output).shape, np.array(target))
+    exit(0)
 
 
     output = torch.Tensor(np.array(output))
