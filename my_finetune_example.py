@@ -198,6 +198,17 @@ criterion = nn.CrossEntropyLoss()
 optimizer = torch.optim.AdamW(model.parameters(), lr=1e-4, weight_decay=1e-4)
 
 
+
+def select_random_50_frames(tensor):
+    a, T, b, c, d = tensor.shape  # Get the shape
+
+    if T > 50:
+        # Randomly select a starting index ensuring 50 consecutive frames fit
+        start_idx = random.randint(0, T - 50)  
+        tensor = tensor[:, start_idx:start_idx + 50, :, :, :]  # Slice along axis 1
+
+    return tensor
+
 # training
 def train(model, dataloader, criterion, optimizer, device):
     model.train()
@@ -205,8 +216,9 @@ def train(model, dataloader, criterion, optimizer, device):
 
     total_batches = len(dataloader)
     for batch_idx,(images, labels) in enumerate(dataloader):
-        print("\timages shape: ", images.shape)
+        #print("\timages shape: ", images.shape)
         #exit(0)
+        images = select_random_50_frames(images)
         images, labels = images.to(device), labels.to(device)
 
         optimizer.zero_grad()
