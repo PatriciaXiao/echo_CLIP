@@ -85,10 +85,10 @@ class EchoClassifier(nn.Module):
         #exit(0) # x encoded:  torch.Size([1, 56, 512])
         x = self.fc(x)  # Classification head
         # torch.Size([1, 56, 2])
-        pooled_x = x.mean(dim=1)  # Shape: [1, 2]
+        x = x.mean(dim=1)  # Shape: [1, 2]
         #print(x.shape)
-        #return x
-        return pooled_x
+        x = torch.softmax(x, dim=1) # in range of prob
+        return x
 
 num_classes = 2  # Example: 4 for "normal", "mild", "moderate", "severe"
 model = EchoClassifier(image_encoder, num_classes).to(device)
