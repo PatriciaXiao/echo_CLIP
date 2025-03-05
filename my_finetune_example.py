@@ -269,6 +269,7 @@ def evaluate(model, dataloader, device):
     #exit(0)
 
     label_dict = {label: i for i, label in enumerate(np.array(target)[:,0])}
+    print(np.array(target)[:,0])
     print(label_dict)
     exit(0)
 
