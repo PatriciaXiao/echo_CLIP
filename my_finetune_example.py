@@ -131,6 +131,8 @@ class EchoDataset(Dataset):
                 [self.transform(T.ToPILImage()(frame)) for frame in image], dim=0
             )
             # turn it into echo clip image encoding
+            #image = image.to(device)
+            image = image.to(torch.bfloat16)
             image = F.normalize(echo_clip.encode_image(image), dim=-1)
             # Add in a batch dimension because the zero-shot functions expect one
             image = image.unsqueeze(0)
